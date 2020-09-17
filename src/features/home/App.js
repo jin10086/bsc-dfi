@@ -39,12 +39,12 @@ export default function App({ children }) {
             description: i18next.t('Home-BrowserWallet')
           },
         },
-        walletconnect: {
-          package: WalletConnectProvider,
-          options: {
-            infuraId: process.env.INFURA_ID
-          }
-        }
+        // walletconnect: {
+        //   package: WalletConnectProvider,
+        //   options: {
+        //     infuraId: process.env.INFURA_ID
+        //   }
+        // }
       }
     })
     setModal(newModal)
