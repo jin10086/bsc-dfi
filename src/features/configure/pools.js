@@ -10,6 +10,38 @@
 // path price: 
 export const pools = [
   {
+    id: 'bnb',
+    name: 'BNB',  
+    token: 'BNB',
+    tokenDescription: 'BNB',
+    tokenAddress: '',
+    tokenDecimals: 18,
+    tokenDescriptionUrl: '',
+    tokenDescriptionUrl2: '',
+    earnedToken: 'iWBNB',
+    earnedTokenAddress: '0x430e8Cf213ee957701F3C685EBE2E82F46d3d942',
+    earnContractAddress: '0x430e8Cf213ee957701F3C685EBE2E82F46d3d942',
+    defaultApy: "39.54",
+    pricePerFullShare: 1,
+    pastPricePerFullShare: 1
+  },
+  {
+    id: 'wbnb',
+    name: 'WBNB',  
+    token: 'WBNB',
+    tokenDescription: 'WBNB',
+    tokenAddress: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+    tokenDecimals: 18,
+    tokenDescriptionUrl: '',
+    tokenDescriptionUrl2: '',
+    earnedToken: 'iWBNB',
+    earnedTokenAddress: '0x430e8Cf213ee957701F3C685EBE2E82F46d3d942',
+    earnContractAddress: '0x430e8Cf213ee957701F3C685EBE2E82F46d3d942',
+    defaultApy: "39.54",
+    pricePerFullShare: 1,
+    pastPricePerFullShare: 1
+  },
+  {
     id: 'busd',
     name: 'BUSD',  
     token: 'BUSD',
