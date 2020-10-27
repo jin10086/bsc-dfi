@@ -217,3 +217,10 @@ export function byDecimals(number, tokenDecimals = 18){
   const decimals = new BigNumber(10).exponentiatedBy(tokenDecimals);
   return new BigNumber(number).dividedBy(decimals);
 }
+
+export function calculateReallyNum(total,sliderNum,formatNum=4){
+  if(sliderNum == undefined){
+    return byDecimals(0, 0).toFormat(formatNum);
+  }
+  return byDecimals(sliderNum/100*Number(total), 0).toFormat(formatNum);
+}

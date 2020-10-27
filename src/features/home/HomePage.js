@@ -8,6 +8,8 @@ import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 
 // sections for this page
 import SectionPools from "features/vault/sections/SectionPools.js";
+import StakePage from 'features/stake/sections/StakePools.js';
+import FarmPools from 'features/farm/sections/FarmPools';
 // style for this page
 // resource file
 // hooks
@@ -29,8 +31,7 @@ export default function HomePage() {
             </span>
         }
         close
-        color="warning"
-        icon={Warning}
+        color="success"
       />
       <SectionPools />
     </>

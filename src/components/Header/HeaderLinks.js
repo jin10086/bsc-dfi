@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
+import { useHistory } from 'react-router-dom';
 import { renderIcon } from '@download/blockies'
 // react components for routing our app without refresh
 // @material-ui/core components
@@ -20,7 +21,14 @@ import { useTranslation } from 'react-i18next';
 import styles from "assets/jss/material-kit-pro-react/components/headerLinksStyle.js";
 const useStyles = makeStyles(styles);
 
+{/* <Tabs className={classes.tabs} value={tabValue} onChange={changeTabs}>
+<Tab value='' label='Home' id='bar-tab-0'/>
+<Tab value='vault' label='Vault' id='bar-tab-1'/>
+<Tab value='stake' label='Stake' id='bar-tab-2'/>
+</Tabs> */}
+
 export default function HeaderLinks(props) {
+  let history = useHistory();
   const { dropdownHoverColor, connected, address, connectWallet, disconnectWallet } = props;
   const classes = useStyles();
   const { t, i18n } = useTranslation();
@@ -28,6 +36,14 @@ export default function HeaderLinks(props) {
   const [shortAddress, setShortAddress] = useState('');
   const [dataUrl, setDataUrl] = useState(null)
   const canvasRef = useRef(null)
+
+  const tabArr = [
+    {value:'',label:t('Nav-Home')},
+    {value:'vault',label:t('Nav-Vault')},
+    {value:'stake',label:t('Nav-Stake')},
+    {value:'farm',label:t('Nav-Farm')},
+    {value:'liquidity',label:t('Nav-lp')},
+  ]
 
   useEffect(() => {
     if(!connected) return;
@@ -80,13 +96,40 @@ export default function HeaderLinks(props) {
     }
   }
 
+  const changeTabs = (newValue) => {
+    history.push({
+        pathname: '/'+newValue,
+        state: {
+        }
+    })
+  }
+
   useEffect(() => {
     const lng = switchLanguage()
     setLanguage(lng);
   });
+
+  let defaultTabValue = '';
+  if(window.location.hash != '#/' && window.location.hash!='#/index'){
+    defaultTabValue = window.location.hash.split('/')[1];
+  }
   
   return (
     <List className={classes.list + " " + classes.mlAuto}>
+      {
+        tabArr.map((item,index)=>(
+          <ListItem key={'tab-'+index} className={classes.listItem}>
+            <Button
+                type="button"
+                color="transparent"
+                onClick={changeTabs.bind(this,item.value)}
+                className={item.value == defaultTabValue ? classes.nowShowPage : ''}
+              >
+                {t(item.label)}
+              </Button>
+          </ListItem>
+        ))
+      }
       <ListItem className={classes.listItem}>
         <CustomDropdown
           navDropdown

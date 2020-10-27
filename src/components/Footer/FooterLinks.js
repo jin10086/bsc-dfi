@@ -2,14 +2,15 @@
 import React, { useEffect, useState } from "react";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
-
+import { useTranslation } from 'react-i18next';
 import Footer from "components/Footer/Footer.js";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import GridContainer from "components/Grid/GridContainer.js";
+import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
 import Popover from '@material-ui/core/Popover';
 import Avatar from '@material-ui/core/Avatar';
-
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/material-kit-pro-react/components/footerLinksStyle.js";
 import classNames from "classnames";
@@ -52,6 +53,7 @@ const footerLinkArr = [
 
 export default function FooterLinks(props) {
     const classes = useStyles();
+    const { t } = useTranslation();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const handlePopoverOpen = (event) => {
@@ -198,17 +200,17 @@ export default function FooterLinks(props) {
                     </Popover>
                 </ListItem>
             </List>
-            <List className={classes.linkList}>
+            <GridContainer className={classes.linkList} justify='center' align='center' >
                 {
                     footerLinkArr.map((item)=>{
                         return (
-                            <ListItem key={item.content} className={classes.linkItem}>
-                                <a className={classes.extraContent} href={item.href} target="_blank">{item.content}</a>
-                            </ListItem >
+                            <GridItem className={classes.linkItem} md={2} xs={6} key={item.content} >
+                                <a className={classes.extraContent} href={item.href} target="_blank">{t(item.content)}</a>
+                            </GridItem >
                         )
                     })
                 }
-            </List>
+            </GridContainer>
         </div>
     )
 }

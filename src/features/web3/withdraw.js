@@ -1,37 +1,41 @@
 import { earnContractABI } from "../configure";
-import { fetchGasPrice } from '.';
+import { enqueueSnackbar } from '../common/redux/actions';
 
-export const withdraw = async ({web3, address,isAll, amount, contractAddress}) => {
+
+export const withdraw = async ({web3, address,isAll, amount, contractAddress, dispatch}) => {
   // console.log(`=====================================withdraw begin=====================================`)
   // console.log(amount)
   const contract = new web3.eth.Contract(earnContractABI, contractAddress);
-  const gasPrice = await fetchGasPrice();
   // console.log(`
   //   address:${address}\n
   //   contractAddress:${contractAddress}\n
-  //   gasPrice:${gasPrice}\n
   //   amount:${web3.utils.toWei(amount, "ether")}
   // `)
   
   // console.log(`=====================================withdraw=====================================`)
-  const data = await _withdraw({web3, contract, isAll, amount, address, gasPrice});
+  const data = await _withdraw({web3, contract, isAll, amount, address, dispatch});
   // console.log(`=====================================withdraw success=====================================`)
   return data;
 }
 
-const _withdraw = ({web3, contract, address,isAll, amount, gasPrice}) => {
+const _withdraw = ({web3, contract, address,isAll, amount, dispatch}) => {
   return new Promise((resolve, reject) => {
     // console.log(isAll)
     if (isAll) {
-      contract.methods.withdrawAll().send({ from: address, gasPrice: web3.utils.toWei(gasPrice, 'gwei') }).on('transactionHash', function(hash){
+      contract.methods.withdrawAll().send({ from: address }).on('transactionHash', function(hash){
         console.log(hash)
-        resolve(hash)
-      })
-      .on('confirmation', function(confirmationNumber, receipt){
-        console.log(confirmationNumber, receipt);
+        dispatch(enqueueSnackbar({
+          message: hash,
+          options: {
+            key: new Date().getTime() + Math.random(),
+            variant: 'success'
+          },
+          hash
+        }));
       })
       .on('receipt', function(receipt){
         console.log(receipt);
+        resolve()
       })
       .on('error', function(error) {
         console.log(error)
@@ -42,15 +46,20 @@ const _withdraw = ({web3, contract, address,isAll, amount, gasPrice}) => {
         reject(error)
       })
     } else {
-      contract.methods.withdraw(amount).send({ from: address, gasPrice: web3.utils.toWei(gasPrice, 'gwei') }).on('transactionHash', function(hash){
+      contract.methods.withdraw(amount).send({ from: address }).on('transactionHash', function(hash){
         console.log(hash)
-        resolve(hash)
-      })
-      .on('confirmation', function(confirmationNumber, receipt){
-        console.log(confirmationNumber, receipt);
+        dispatch(enqueueSnackbar({
+          message: hash,
+          options: {
+            key: new Date().getTime() + Math.random(),
+            variant: 'success'
+          },
+          hash
+        }));
       })
       .on('receipt', function(receipt){
         console.log(receipt);
+        resolve()
       })
       .on('error', function(error) {
         console.log(error)
