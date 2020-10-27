@@ -1,55 +1,66 @@
 import { earnContractABI } from "../configure";
-import { fetchGasPrice } from '.';
+import { enqueueSnackbar } from '../common/redux/actions';
 
-export const deposit = async ({web3, address, isAll, amount, contractAddress}) => {
+
+export const deposit = async ({web3, address, isAll, amount, contractAddress, dispatch}) => {
   // console.log(`=====================================deposit begin=====================================`)
-  const gasPrice = await fetchGasPrice();
   console.log(`
     address:${address}\n
     contractAddress:${contractAddress}\n
-    gasPrice:${gasPrice}\n
     amount:${amount}
   `)
   const contract = new web3.eth.Contract(earnContractABI, contractAddress);
-  const data = await _deposit({web3, contract,isAll, amount,  address, gasPrice});
+  const data = await _deposit({web3, contract,isAll, amount,  address, dispatch});
   // console.log(`=====================================deposit success=====================================`)
   return data;
 }
 
-const _deposit = ({web3, contract, amount, isAll, address, gasPrice}) => {
+const _deposit = ({web3, contract, amount, isAll, address, dispatch}) => {
   return new Promise((resolve, reject) => {
     // console.log(isAll)
     if(isAll) {
-      contract.methods.depositAll().send({ from: address, gasPrice: web3.utils.toWei(gasPrice, 'gwei') }).on('transactionHash', function(hash){
+      contract.methods.depositAll().send({ from: address }).on('transactionHash', function(hash){
         console.log(hash)
-        resolve(hash)
-      })
-      .on('confirmation', function(confirmationNumber, receipt){
-        console.log(confirmationNumber, receipt);
+        dispatch(enqueueSnackbar({
+          message: hash,
+          options: {
+            key: new Date().getTime() + Math.random(),
+            variant: 'success'
+          },
+          hash
+        }));
       })
       .on('receipt', function(receipt){
         console.log(receipt);
+        resolve()
       })
       .on('error', function(error) {
         console.log(error)
+        reject(error)
       })
       .catch((error) => {
         console.log(error)
         reject(error)
       })
     } else {
-      contract.methods.deposit(amount).send({ from: address, gasPrice: web3.utils.toWei(gasPrice, 'gwei') }).on('transactionHash', function(hash){
+      contract.methods.deposit(amount).send({ from: address }).on('transactionHash', function(hash){
         console.log(hash)
-        resolve(hash)
-      })
-      .on('confirmation', function(confirmationNumber, receipt){
-        console.log(confirmationNumber, receipt);
+        dispatch(enqueueSnackbar({
+          message: hash,
+          options: {
+            key: new Date().getTime() + Math.random(),
+            variant: 'success'
+          },
+          hash
+        }));
       })
       .on('receipt', function(receipt){
         console.log(receipt);
+        resolve()
       })
       .on('error', function(error) {
         console.log(error)
+        reject(error)
       })
       .catch((error) => {
         console.log(error)
