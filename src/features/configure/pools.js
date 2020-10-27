@@ -19,8 +19,8 @@ export const pools = [
     tokenDescriptionUrl: '',
     tokenDescriptionUrl2: '',
     earnedToken: 'iWBNB',
-    earnedTokenAddress: '0x430e8Cf213ee957701F3C685EBE2E82F46d3d942',
-    earnContractAddress: '0x430e8Cf213ee957701F3C685EBE2E82F46d3d942',
+    earnedTokenAddress: '0x72dd5Df626ebBc020fdF431502799413c56Ac12C',
+    earnContractAddress: '0x72dd5Df626ebBc020fdF431502799413c56Ac12C',
     defaultApy: "39.54",
     pricePerFullShare: 1,
     pastPricePerFullShare: 1
@@ -35,8 +35,8 @@ export const pools = [
     tokenDescriptionUrl: '',
     tokenDescriptionUrl2: '',
     earnedToken: 'iWBNB',
-    earnedTokenAddress: '0x430e8Cf213ee957701F3C685EBE2E82F46d3d942',
-    earnContractAddress: '0x430e8Cf213ee957701F3C685EBE2E82F46d3d942',
+    earnedTokenAddress: '0x72dd5Df626ebBc020fdF431502799413c56Ac12C',
+    earnContractAddress: '0x72dd5Df626ebBc020fdF431502799413c56Ac12C',
     defaultApy: "39.54",
     pricePerFullShare: 1,
     pastPricePerFullShare: 1
