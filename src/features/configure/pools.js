@@ -56,7 +56,8 @@ export const pools = [
     defaultApy: "42.63",
     pricePerFullShare: 1,
     pastPricePerFullShare: 1
-  },{
+  },
+  {
     id: 'usdt',
     name: 'USDT',  
     token: 'USDT',
@@ -68,6 +69,22 @@ export const pools = [
     earnedToken: 'iUSDT',
     earnedTokenAddress: '0x1F19D041FDCE1B70901008229d77A8B02E315618',
     earnContractAddress: '0x1F19D041FDCE1B70901008229d77A8B02E315618',
+    defaultApy: "39.54",
+    pricePerFullShare: 1,
+    pastPricePerFullShare: 1
+  }
+  ,{
+    id: 'eth',
+    name: 'ETH',  
+    token: 'ETH',
+    tokenDescription: 'ETH',
+    tokenAddress: '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
+    tokenDecimals: 18,
+    tokenDescriptionUrl: '',
+    tokenDescriptionUrl2: '',
+    earnedToken: 'iETH',
+    earnedTokenAddress: '0xb98f8339CD3CD50701aCdE307875B78c373e6515',
+    earnContractAddress: '0xb98f8339CD3CD50701aCdE307875B78c373e6515',
     defaultApy: "39.54",
     pricePerFullShare: 1,
     pastPricePerFullShare: 1
