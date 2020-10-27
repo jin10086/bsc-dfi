@@ -1,6 +1,6 @@
 {
   "name": "vault",
-  "homepage": "https://dfi.money",
+  "homepage": "https://bsc.gdfi.money",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
