@@ -39,6 +39,7 @@ import CustomSlider from 'components/CustomSlider/CustomSlider';
 import sectionPoolsStyle from "../jss/sections/sectionPoolsStyle";
 import { reflect } from 'async';
 import { inputLimitPass,inputFinalVal,isEmpty } from 'features/helpers/utils';
+import CustomDialog from 'components/CustomDialog/CustomDialog';
 
 const useStyles = makeStyles(sectionPoolsStyle);
 
@@ -48,6 +49,8 @@ export default function SectionPools() {
   let { pools, fetchPoolBalances } = useFetchPoolBalances();
   const { tokens, fetchBalances } = useFetchBalances();
   const [ openedCardList, setOpenCardList ] = useState([0]);
+  const [ openDialog, setOpenDialog] = useState(false);
+  const [ waitDialogConfirmJson, setWaitDialogConfirmJson] = useState({'content':'','func':()=>{}});
   const classes = useStyles();
 
   const { fetchApproval, fetchApprovalPending } = useFetchApproval();
@@ -122,7 +125,6 @@ export default function SectionPools() {
   }
 
   const onDeposit = (pool, index, isAll, balanceSingle, event) => {
-    event.stopPropagation();
     if (isAll) {
       setDepositedBalance({
         ...depositedBalance,
@@ -257,13 +259,36 @@ export default function SectionPools() {
   const random = (min, max) => {
     return Math.floor(Math.random() * (max - min)) + min;
   }
+
+  const handleClose = () => {
+    setOpenDialog(false);
+    setTimeout(()=>{
+      setWaitDialogConfirmJson({'content':'','func':()=>{}})
+    },200)
+  }
+
   return (
     <Grid container style={{paddingTop: '4px'}}>
       <Grid item xs={12}>
         <div className={classes.mainTitle}>{t('Vault-Main-Title')}</div>
         <h3 className={classes.secondTitle}>{t('Vault-Second-Title')}</h3>
       </Grid>
-      
+      <CustomDialog
+        open={openDialog}
+        handleClose={handleClose}
+        dialogContent={t(waitDialogConfirmJson.content)}
+        agreeJson={{
+          content:t('Vault-Dialog-Agree-Content'),
+          callback:()=>{
+            waitDialogConfirmJson.func();
+          }
+        }}
+        disagreeJson={{
+          content:t('Vault-Dialog-Disagree-Content'),
+          callback:()=>{
+          }
+        }}
+        />
         {Boolean(networkId === Number(process.env.NETWORK_ID)) && pools.map((pool, index) => {
             let balanceSingle = byDecimals(tokens[pool.token].tokenBalance, pool.tokenDecimals);
             // balanceSingle = byDecimals(random(1, 1000000), 1)
@@ -303,19 +328,31 @@ export default function SectionPools() {
                                             <Typography className={classes.iconContainerMainTitle} variant="body2" gutterBottom>
                                                 {pool.token}
                                                 <Hidden smUp>
-                                                    <i
-                                                        style={{color:primaryColor[0],marginLeft:'4px',visibility:Boolean(isZh?pool.tokenDescriptionUrl2:pool.tokenDescriptionUrl)?"visible":"hidden"}}
-                                                        className={"yfiiicon yfii-help-circle"} 
-                                                        onClick={
-                                                            event => {
-                                                                event.stopPropagation();
-                                                                window.open(isZh?pool.tokenDescriptionUrl2:pool.tokenDescriptionUrl)
-                                                            }
+                                                  <i
+                                                    style={{color:primaryColor[0],marginLeft:'4px',visibility:Boolean(isZh?pool.tokenDescriptionUrl2:pool.tokenDescriptionUrl)?"visible":"hidden"}}
+                                                    className={"yfiiicon yfii-help-circle"} 
+                                                    onClick={
+                                                        event => {
+                                                            event.stopPropagation();
+                                                            window.open(isZh?pool.tokenDescriptionUrl2:pool.tokenDescriptionUrl)
                                                         }
-                                                        />
+                                                    }
+                                                    />
+                                                </Hidden>
+                                                <Hidden smUp>
+                                                  <i
+                                                    style={{color:primaryColor[0],marginLeft:'4px',visibility:!isEmpty(pool.depostAlert)?"visible":"hidden"}}
+                                                    className={"fas fa-exclamation"} 
+                                                    onClick={
+                                                      event => {
+                                                        event.stopPropagation();
+                                                        setWaitDialogConfirmJson({'content':pool.depostAlert,'func':()=>{}})
+                                                        setOpenDialog(true);
+                                                      }
+                                                    }
+                                                    />
                                                 </Hidden>
                                             </Typography>
-                                            
                                         <Typography className={classes.iconContainerSubTitle} variant="body2">{pool.token}</Typography>
                                     </Grid>
                                 </Grid>
@@ -350,7 +387,7 @@ export default function SectionPools() {
                             <Grid item >
                                 <Grid item container justify="flex-end" alignItems="center" spacing={2}>
                                     <Hidden mdDown>
-                                        <Grid item>
+                                      <Grid item>
                                         <IconButton
                                             classes={{
                                                 root:classes.iconContainerSecond
@@ -364,22 +401,41 @@ export default function SectionPools() {
                                                 }
                                             }
                                         >
-                                            <i className={"yfiiicon yfii-help-circle"} />
+                                          <i className={"yfiiicon yfii-help-circle"} />
                                         </IconButton>
-                                        </Grid>
+                                      </Grid>
+                                    </Hidden>
+                                    <Hidden mdDown>
+                                      <Grid item>
+                                        <IconButton
+                                          classes={{
+                                              root:classes.iconContainerSecond
+                                          }}
+                                          style={{visibility:!isEmpty(pool.depostAlert)?"visible":"hidden"}}
+                                          onClick={
+                                              event => {
+                                                event.stopPropagation();
+                                                setWaitDialogConfirmJson({'content':pool.depostAlert,'func':()=>{}})
+                                                setOpenDialog(true);
+                                              }
+                                          }
+                                        >
+                                          <i className={"fas fa-exclamation"} />
+                                        </IconButton>
+                                      </Grid>
                                     </Hidden>
                                     <Grid item>
-                                    <IconButton
-                                        className={classes.iconContainerPrimary}
-                                        onClick={(event) => {
+                                      <IconButton
+                                          className={classes.iconContainerPrimary}
+                                          onClick={(event) => {
                                             event.stopPropagation();
                                             openCard(index);  
-                                        }}
-                                    >
-                                        {
+                                          }}
+                                      >
+                                          {
                                             openedCardList.includes(index) ? <i className={"yfiiicon yfii-arrow-up"} /> : <i className={"yfiiicon yfii-arrow-down"} />
-                                        }
-                                    </IconButton>
+                                          }
+                                      </IconButton>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -442,7 +498,18 @@ export default function SectionPools() {
                                             disabled={
                                                 !Boolean(depositedBalance[index]) || !Boolean(depositedBalance[index]!=0) || fetchDepositPending[index] || (new BigNumber(depositedBalance[index]).toNumber() > balanceSingle.toNumber() || isMoreDepostLimit(new BigNumber(depositedBalance[index]).toNumber(),pool.depostLimit) )
                                             }
-                                            onClick={onDeposit.bind(this, pool, index, false, balanceSingle)}
+                                            onClick={(event)=>{
+                                              event.stopPropagation();
+                                              if(!isEmpty(pool.depostAlert)){
+                                                setWaitDialogConfirmJson({
+                                                  'content':pool.depostAlert,
+                                                  'func':()=>{onDeposit(pool, index, false, balanceSingle,event)}
+                                                });
+                                                setOpenDialog(true);
+                                              }else{
+                                                onDeposit(pool, index, false, balanceSingle,event);
+                                              }
+                                            }}
                                             >{t('Vault-DepositButton')}
                                         </Button>
                                         {Boolean(pool.tokenAddress) && <Button 
@@ -460,7 +527,18 @@ export default function SectionPools() {
                                             disabled={
                                                 fetchDepositPending[index] || (new BigNumber(depositedBalance[index]).toNumber() > balanceSingle.toNumber() || isMoreDepostLimit(balanceSingle.toNumber(),pool.depostLimit) )
                                             }
-                                            onClick={onDeposit.bind(this, pool, index, true, balanceSingle)}
+                                            onClick={(event)=>{
+                                              event.stopPropagation();
+                                              if(!isEmpty(pool.depostAlert)){
+                                                setWaitDialogConfirmJson({
+                                                  'content':pool.depostAlert,
+                                                  'func':()=>{onDeposit(pool, index, false, balanceSingle,event)}
+                                                });
+                                                setOpenDialog(true);
+                                              }else{
+                                                onDeposit(pool, index, true, balanceSingle,event);
+                                              }
+                                            }}
                                             >{t('Vault-DepositButtonAll')}
                                         </Button>}
                                     </div>
