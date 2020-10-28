@@ -7,6 +7,7 @@ import BigNumber from "bignumber.js";
 // tokenDecimals: '存入精度'
 // itokenDecimals: '提取精度'
 // depostLimit: '存入最大数量限制' 0时不限制
+// depostAlert: '存入提示'
 // earnedToken: '奖励代币',
 // earnedTokenAddress: '奖励代币ERC20地址',
 // earnContractAddress: '池子合约地址',
@@ -22,6 +23,7 @@ export const pools = [
     tokenDecimals: 18,
     itokenDecimals: 18,
     depostLimit:0,
+    depostAlert:'',
     tokenDescriptionUrl: '',
     tokenDescriptionUrl2: '',
     earnedToken: 'iWBNB',
@@ -40,6 +42,7 @@ export const pools = [
     tokenDecimals: 18,
     itokenDecimals: 18,
     depostLimit:0,
+    depostAlert:'Vault-Dialog-Content',
     tokenDescriptionUrl: '',
     tokenDescriptionUrl2: '',
     earnedToken: 'iWBNB',
@@ -58,6 +61,7 @@ export const pools = [
     tokenDecimals: 18,
     itokenDecimals: 18,
     depostLimit:0,
+    depostAlert:'',
     tokenDescriptionUrl: '',
     tokenDescriptionUrl2: '',
     earnedToken: 'iBUSD',
@@ -76,6 +80,7 @@ export const pools = [
     tokenDecimals: 18,
     itokenDecimals: 18,
     depostLimit:0,
+    depostAlert:'',
     tokenDescriptionUrl: '',
     tokenDescriptionUrl2: '',
     earnedToken: 'iUSDT',
@@ -94,6 +99,7 @@ export const pools = [
     tokenDecimals: 18,
     itokenDecimals: 18,
     depostLimit:0,
+    depostAlert:'',
     tokenDescriptionUrl: '',
     tokenDescriptionUrl2: '',
     earnedToken: 'iETH',
