@@ -42,7 +42,7 @@ export const pools = [
     tokenDecimals: 18,
     itokenDecimals: 18,
     depostLimit:0,
-    depostAlert:'Vault-Dialog-Content',
+    // depostAlert:'Vault-Dialog-Content',
     tokenDescriptionUrl: '',
     tokenDescriptionUrl2: '',
     earnedToken: 'iWBNB',
