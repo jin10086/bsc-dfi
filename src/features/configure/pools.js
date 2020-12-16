@@ -108,5 +108,23 @@ export const pools = [
     defaultApy: "39.54",
     pricePerFullShare: 1,
     pastPricePerFullShare: 1
+  },{
+    id: 'yfii',
+    name: 'YFII',  
+    token: 'YFII',
+    tokenDescription: 'YFII',
+    tokenAddress: '0x7F70642d88cf1C4a3a7abb072B53B929b653edA5',
+    tokenDecimals: 18,
+    itokenDecimals: 18,
+    depostLimit:0,
+    depostAlert:'',
+    tokenDescriptionUrl: '',
+    tokenDescriptionUrl2: '',
+    earnedToken: 'iYFII',
+    earnedTokenAddress: '0x57Ea66bb8F83D09127b792FDf0af4A94fc5D6314',
+    earnContractAddress: '0x57Ea66bb8F83D09127b792FDf0af4A94fc5D6314',
+    defaultApy: "39.54",
+    pricePerFullShare: 1,
+    pastPricePerFullShare: 1
   }
 ]
